@@ -12,41 +12,70 @@ class ViewController: UIViewController {
 
     @IBOutlet var inputNumberTextField: UITextField!
     @IBOutlet var resultLabel: UILabel!
-
+    
+    @IBOutlet var remainingNumberLable: UILabel!
+    
     var finalCode: Int?
     var inputCode: Int?
     var topCode: Int?
     var bottomCode: Int?
+    var playerList = ["Alex", "Jeff", "YoMing", "PiHan", "George", "Crystal"]
+    var playerIndex = 0
     
+    @IBOutlet var playerNameLabel: UILabel!
     @IBOutlet var resetButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         createFinalCode()
     }
 
     func createFinalCode() {
-        finalCode = Int(arc4random_uniform(UInt32(100)))
-        topCode = 99
+        finalCode = Int(arc4random_uniform(UInt32(99))+1)
+        topCode = 100
         bottomCode = 0
         resetButton.enabled = false
-        resultLabel.text = "請猜0~99 任一數字"
+        resultLabel.text = "0 < 100"
+        remainingNumberLable.text = "100"
+        playerIndex = Int(arc4random_uniform(UInt32(playerList.count)))
+        playerNameLabel.text = playerList[playerIndex]
     }
     
     @IBAction func confirmButtonPressed(sender: AnyObject) {
         inputCode = Int(inputNumberTextField.text!)
+        inputNumberTextField.text = ""
         
         if inputCode == finalCode {
-            resultLabel.text = "猜中了！"
+            let title = "\(playerList[playerIndex]) 你輸了！"
+            let alert = UIAlertController(title: title, message: "請接受處罰", preferredStyle: .Alert)
+            let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            let newGame = UIAlertAction(title: "New Game", style: .Default, handler: { (UIAlertAction) in
+                self.createFinalCode()
+            })
+            alert.addAction(okAction)
+            alert.addAction(newGame)
+            presentViewController(alert, animated: true, completion: nil)
+            resultLabel.text = String(finalCode!)
+            remainingNumberLable.text = "0"
             resetButton.enabled = true
+            return
         }else if inputCode > finalCode {
             topCode = inputCode
-          resultLabel.text = "\(bottomCode!) < \(topCode!)"
+            resultLabel.text = "\(bottomCode!) < \(topCode!)"
         }else if inputCode < finalCode {
             bottomCode = inputCode
             resultLabel.text = "\(bottomCode!) < \(topCode!)"
         }
         
-        inputNumberTextField.text = ""
+        if playerIndex < playerList.count - 1 {
+            playerIndex += 1
+        }else {
+            playerIndex = 0
+        }
+        
+        playerNameLabel.text = playerList[playerIndex]
+        remainingNumberLable.text = "\(topCode! - bottomCode! - 1)"
+        
         
     }
     
