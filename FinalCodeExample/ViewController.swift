@@ -62,13 +62,20 @@ class ViewController: UIViewController {
     // every single game can have a new order.
     
     //TODO 3: The Result label should show who is the loser
+    //Advance -> use alertController
     
-    //TODO 4: display how many numbers players can guess
+    //TODO 4: Display how many numbers players can guess
     
-    //TODO 5: use your creation to add a few feature
-    // EX: each player can have 2 crads "return" / "pass"
-    // each player can use these 2 cards once each game
-
-
+    //TODO *: Use your creation to add more fun features
+    
+    
+    //Optional TODOs:
+    
+    //TODO 5: When start a new game, system will sheffle the player list
+    
+    //TODO 6: Each player can have 2 crads "return" / "pass"
+    //        Each card can be used one time in a game.
+    
+    
 }
 
